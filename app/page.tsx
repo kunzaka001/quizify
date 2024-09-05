@@ -35,11 +35,14 @@ const Home = () => {
   };
 
   return (
-    <div className="flex">
+    <div className="flex items-center justify-center h-screen">
       {user ? (
         <Dashboard />
       ) : (
-        <button onClick={signInWithGoogle} className="">
+        <button
+          onClick={signInWithGoogle}
+          className="bg-blue-500 text-white px-4 py-2 rounded"
+        >
           Sign in with Google
         </button>
       )}
