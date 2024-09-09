@@ -4,7 +4,7 @@ import { getAuth, signOut, onAuthStateChanged, User } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import app from "../../config.js";
 
-function Dashboard() {
+function UserInfo() {
   const auth = getAuth(app);
   const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
@@ -44,4 +44,4 @@ function Dashboard() {
   );
 }
 
-export default Dashboard;
+export default UserInfo;
