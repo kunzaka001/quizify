@@ -64,6 +64,8 @@ const Login = () => {
         console.log("User already exists, navigating to the dashboard.");
       }
 
+      localStorage.setItem("userId", userId);
+
       // Navigate to the dashboard after successful login
       router.push("/home");
     } catch (error: any) {
