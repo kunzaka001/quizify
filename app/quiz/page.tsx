@@ -1,11 +1,12 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { fetchQuestions } from "../lib/fetchQuestions"; // Adjust path if necessary
+import { fetchQuestions } from "../lib/fetchQuestions";
 import { getDatabase, ref, set, get } from "firebase/database";
 import { getAuth, User } from "firebase/auth";
 import { useRouter } from "next/navigation";
-import app from "../../config.js";
+//import app from "../../config.js";
+import { decode } from "html-entities"; // Import decode from html-entities
 
 const Quiz = () => {
   const router = useRouter();
@@ -28,6 +29,11 @@ const Quiz = () => {
     return array;
   };
 
+  // Decode function for text
+  const decodeText = (text: string | null) => {
+    return text ? decode(text) : "";
+  };
+
   // Load difficulty from URL query parameters
   useEffect(() => {
     const query = new URLSearchParams(window.location.search);
@@ -40,9 +46,10 @@ const Quiz = () => {
     const loadQuestions = async () => {
       try {
         const difficultyValue = difficulty || "easy";
+        console.log(difficultyValue);
         const questionsData = await fetchQuestions(10, difficultyValue); // Fetch 10 questions
 
-        // Shuffle answers for each question
+        // Shuffle answers for each question and decode HTML entities
         const shuffledQuestions = questionsData.map((question: any) => {
           const allAnswers = [
             ...question.incorrect_answers,
@@ -50,7 +57,8 @@ const Quiz = () => {
           ];
           return {
             ...question,
-            answers: shuffleArray(allAnswers),
+            question: decodeText(question.question), // Decode the question
+            answers: shuffleArray(allAnswers.map(decodeText)), // Decode all answers
           };
         });
 
@@ -115,6 +123,14 @@ const Quiz = () => {
     setUserAnswer(null);
     setTimer(5); // Reset timer for the next question
     setCurrentQuestionIndex(currentQuestionIndex + 1);
+  };
+
+  const navHome = () => {
+    try {
+      router.push("/home");
+    } catch (error: any) {
+      console.error("Error navigating:", error.message);
+    }
   };
 
   return (
@@ -186,7 +202,7 @@ const Quiz = () => {
               <p className="text-xl font-medium mt-2">Your score: {score}</p>
               <button
                 className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-300"
-                //onClick={}
+                onClick={navHome}
               >
                 Finish
               </button>
