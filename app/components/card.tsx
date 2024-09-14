@@ -2,10 +2,23 @@ type CardProps = {
   title: string;
   des: string;
   buttext: string;
-  onButtonClick?: () => void; // Optional onClick handler for the button
+  onButtonClick?: (selectedDifficulty: string) => void;
+  difficulty: string;
 };
 
-const Card = ({ title, des, buttext, onButtonClick }: CardProps) => {
+const Card = ({
+  title,
+  des,
+  buttext,
+  onButtonClick,
+  difficulty,
+}: CardProps) => {
+  const handleClick = () => {
+    if (onButtonClick) {
+      onButtonClick(difficulty);
+    }
+  };
+
   return (
     <div className="max-w-sm bg-white border border-gray-300 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 ease-in-out transform hover:scale-105">
       <a href="#">
@@ -23,7 +36,7 @@ const Card = ({ title, des, buttext, onButtonClick }: CardProps) => {
         </a>
         <p className="mb-4 text-gray-600">{des}</p>
         <button
-          onClick={onButtonClick} // Attach the onClick handler to the button
+          onClick={handleClick}
           className="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 transition-colors duration-300"
         >
           {buttext}
