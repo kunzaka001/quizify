@@ -4,7 +4,7 @@ import app from "../config.js";
 import { getAuth, User } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
-import { getDatabase, ref, set, get } from "firebase/database"; // Import Firebase Realtime Database
+import { getDatabase, ref, set, get } from "firebase/database";
 
 const Login = () => {
   const [user, setUser] = useState<User | null>(null);
