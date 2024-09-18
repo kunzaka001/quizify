@@ -105,7 +105,7 @@ const Home = () => {
         )}
       </div>
       <div className="flex justify-center items-center flex-grow">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           <Card
             title="Easy"
             des="An Easy mode general knowledge trivia. Isn't this too easy?"
