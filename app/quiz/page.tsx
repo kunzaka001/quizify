@@ -5,8 +5,7 @@ import { fetchQuestions } from "../lib/fetchQuestions";
 import { getDatabase, ref, set, get } from "firebase/database";
 import { getAuth, User } from "firebase/auth";
 import { useRouter } from "next/navigation";
-//import app from "../../config.js";
-import { decode } from "html-entities"; // Import decode from html-entities
+import { decode } from "html-entities";
 
 const Quiz = () => {
   const router = useRouter();
@@ -20,36 +19,31 @@ const Quiz = () => {
   const [countdown, setCountdown] = useState(5);
   const [showPage, setShowPage] = useState(false);
 
-  // Shuffle function
   const shuffleArray = (array: any[]) => {
     for (let i = array.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
-      [array[i], array[j]] = [array[j], array[i]]; // Swap elements
+      [array[i], array[j]] = [array[j], array[i]];
     }
     return array;
   };
 
-  // Decode function for text
   const decodeText = (text: string | null) => {
     return text ? decode(text) : "";
   };
 
-  // Load difficulty from URL query parameters
   useEffect(() => {
     const query = new URLSearchParams(window.location.search);
     const difficultyParam = query.get("difficulty");
     setDifficulty(difficultyParam);
   }, []);
 
-  // Load questions when difficulty is set
   useEffect(() => {
     const loadQuestions = async () => {
       try {
         const difficultyValue = difficulty || "easy";
         console.log(difficultyValue);
-        const questionsData = await fetchQuestions(10, difficultyValue); // Fetch 10 questions
+        const questionsData = await fetchQuestions(10, difficultyValue);
 
-        // Shuffle answers for each question and decode HTML entities
         const shuffledQuestions = questionsData.map((question: any) => {
           const allAnswers = [
             ...question.incorrect_answers,
@@ -57,8 +51,8 @@ const Quiz = () => {
           ];
           return {
             ...question,
-            question: decodeText(question.question), // Decode the question
-            answers: shuffleArray(allAnswers.map(decodeText)), // Decode all answers
+            question: decodeText(question.question),
+            answers: shuffleArray(allAnswers.map(decodeText)),
           };
         });
 
@@ -73,7 +67,6 @@ const Quiz = () => {
     }
   }, [difficulty]);
 
-  // Countdown timer before starting the quiz
   useEffect(() => {
     const countdownTimer = async () => {
       while (countdown > 0) {
@@ -86,8 +79,8 @@ const Quiz = () => {
           }, 1000);
         });
       }
-      setShowPage(true); // Show the quiz page after countdown ends
-      setTimer(5); // Start the timer for the first question
+      setShowPage(true);
+      setTimer(5);
     };
 
     if (difficulty !== null) {
@@ -95,7 +88,6 @@ const Quiz = () => {
     }
   }, [countdown, difficulty]);
 
-  // Timer for each question
   useEffect(() => {
     if (showPage && timer > 0 && !isAnswerVisible) {
       const timerId = setTimeout(() => setTimer(timer - 1), 1000);
@@ -106,7 +98,7 @@ const Quiz = () => {
   }, [timer, showPage, isAnswerVisible]);
 
   const handleAnswer = (answer: string) => {
-    if (isAnswerVisible) return; // Prevent answering if the timer has run out
+    if (isAnswerVisible) return;
 
     const currentQuestion = questions[currentQuestionIndex];
     const correctAnswer = currentQuestion.correct_answer;
@@ -121,7 +113,7 @@ const Quiz = () => {
   const handleNextQuestion = () => {
     setIsAnswerVisible(false);
     setUserAnswer(null);
-    setTimer(5); // Reset timer for the next question
+    setTimer(5);
     setCurrentQuestionIndex(currentQuestionIndex + 1);
   };
 
