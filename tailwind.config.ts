@@ -6,9 +6,12 @@ const config: Config = {
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
-  purge: false,
   theme: {
-    extend: {},
+    extend: {
+      screens: {
+        'sm': '480px',
+      }
+    },
   },
   plugins: [],
 };
