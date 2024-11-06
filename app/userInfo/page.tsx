@@ -52,7 +52,7 @@ function UserInfo() {
           />
         </div>
         <h1 className="text-2xl font-bold mb-4">
-          This is Dashboard, {user ? user.displayName : "Guest"}!
+          Your Profile, {user ? user.displayName : "Guest"}!
         </h1>
         <p className="text-lg mb-4">
           Email: {user ? user.email : "Not available"}

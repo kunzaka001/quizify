@@ -63,10 +63,8 @@ const Landing = () => {
       const db = getDatabase(app);
       const userRef = ref(db, "users/" + userId);
 
-      // Check if the user already exists in the database
       const snapshot = await get(userRef);
       if (!snapshot.exists()) {
-        // First time login, write the user data to the database
         writeUserData(userId, name, email, imageUrl, highScore);
         console.log("First time login, user data written to the database.");
       } else {
@@ -75,7 +73,6 @@ const Landing = () => {
 
       localStorage.setItem("userId", userId);
 
-      // Navigate to the dashboard after successful login
       router.push("/home");
     } catch (error: any) {
       console.error("Error signing in with Google:", error.message);

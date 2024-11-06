@@ -24,10 +24,8 @@ const Home = () => {
   } | null>(null);
 
   useEffect(() => {
-    // Set authentication persistence
     setPersistence(auth, browserLocalPersistence)
       .then(() => {
-        // Monitor authentication state
         const unsubscribe = onAuthStateChanged(auth, (user) => {
           if (user) {
             const userId = user.uid;
@@ -37,7 +35,7 @@ const Home = () => {
               if (data) {
                 setUser({
                   username: data.username,
-                  photoURL: data.profile_picture, // Assuming profile_picture is stored here
+                  photoURL: data.profile_picture,
                 });
               }
             });
@@ -82,7 +80,7 @@ const Home = () => {
               alt="User"
               className="w-12 h-12 rounded-full border-2 border-blue-500"
               onError={(e) => {
-                e.currentTarget.src = "default-profile.png"; // Replace with a default image path
+                e.currentTarget.src = "default-profile.png";
               }}
             />
             <span className="text-lg font-semibold text-white">

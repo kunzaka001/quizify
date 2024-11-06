@@ -6,7 +6,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Quizify",
-  description: "A Quiz Platform",
+  description: "A Quiz Platform"
 };
 
 export default function RootLayout({
