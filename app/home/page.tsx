@@ -8,8 +8,9 @@ import {
   browserLocalPersistence,
 } from "firebase/auth";
 import { getDatabase, ref, onValue } from "firebase/database";
-import Card from "../components/card.tsx";
 import app from "../../config.js";
+
+import CategorySelectCard from "../components/categoryCard"
 
 const Home = () => {
   const router = useRouter();
@@ -84,7 +85,7 @@ const Home = () => {
                 e.currentTarget.src = "default-profile.png"; // Replace with a default image path
               }}
             />
-            <span className="text-lg font-semibold text-gray-800">
+            <span className="text-lg font-semibold text-white">
               {user.username}
             </span>
           </div>
@@ -106,27 +107,7 @@ const Home = () => {
       </div>
       <div className="flex justify-center items-center flex-grow">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          <Card
-            title="Easy"
-            des="An Easy mode general knowledge trivia. Isn't this too easy?"
-            buttext="Let Go!"
-            onButtonClick={() => navToQuiz("easy")}
-            difficulty="easy"
-          />
-          <Card
-            title="Medium"
-            des="A little harder than Easy mode. Don't you think?"
-            buttext="Let Go!"
-            onButtonClick={() => navToQuiz("medium")}
-            difficulty="medium"
-          />
-          <Card
-            title="Hard"
-            des="Do you think you could pass this?"
-            buttext="Let Go!"
-            onButtonClick={() => navToQuiz("hard")}
-            difficulty="hard"
-          />
+          <CategorySelectCard />
         </div>
       </div>
     </div>
