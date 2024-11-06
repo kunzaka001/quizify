@@ -6,7 +6,15 @@ import { useRouter } from "next/navigation";
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { getDatabase, ref, set, get } from "firebase/database";
 
-const Login = () => {
+import { ArrowDownRight } from "lucide-react";
+
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+
+import Image from "next/image";
+import quizifyLogo from "./assets/q.png";
+
+const Landing = () => {
   const [user, setUser] = useState<User | null>(null);
   const router = useRouter();
 
@@ -15,6 +23,7 @@ const Login = () => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
         setUser(user);
+        router.push("/home");
       } else {
         setUser(null);
       }
@@ -74,52 +83,43 @@ const Login = () => {
   };
 
   return (
-    <div className="flex flex-col w-full md:w-1/2 xl:w-2/5 2xl:w-2/5 3xl:w-1/3 mx-auto p-8 md:p-10 2xl:p-12 3xl:p-14 bg-[#ffffff] rounded-2xl shadow-xl">
-      <div className="flex flex-col justify-center mx-auto items-center gap-3 pb-4">
-        <div>
-          <img src="/q.png" width="400" alt="Quizify" />
+    <>
+      <section className="flex justify-center items-center py-32">
+        <div className="container flex justify-center items-center">
+          <div className="grid items-center gap-8 lg:grid-cols-2 justify-center">
+            <div className="flex flex-col items-center text-center lg:items-start lg:text-left">
+              <Badge variant="outline">
+                New Release
+                <ArrowDownRight className="ml-2 size-4" />
+              </Badge>
+              <h1 className="my-6 text-pretty text-4xl font-bold lg:text-6xl">
+                Quizify: Your Ultimate Trivia Challenge
+              </h1>
+              <p className="mb-8 max-w-xl text-muted-foreground lg:text-xl">
+                Test your knowledge with Quizify! Challenge yourself with fun
+                and engaging trivia questions, track your scores, and compete
+                for the highest score. Ready to play?
+              </p>
+              <div className="flex w-full flex-col justify-center gap-2 sm:flex-row lg:justify-start">
+                <Button className="w-full jello-vertical sm:w-auto" onClick={signInWithGoogle}>Dive In!</Button>
+                <Button variant="outline" className="w-full jello-vertical sm:w-auto">
+                  Github
+                  <ArrowDownRight className="ml-2 size-4" />
+                </Button>
+              </div>
+            </div>
+            <div className="rotate-in-center">
+              <Image
+                src={quizifyLogo}
+                alt="Quizify Logo"
+                className="max-h-96 w-full rounded-md object-cover"
+              />
+            </div>
+          </div>
         </div>
-        <h1 className="text-3xl font-bold text-[#4B5563] text-[#4B5563] my-auto">
-          Login
-        </h1>
-      </div>
-      <div className="text-base font-light text-[#6B7280] pb-8 mx-auto">
-        Login to your account Using google Auth.
-      </div>
-
-      <div className="relative flex py-8 items-center">
-        <div className="flex-grow border-t border-[1px] border-gray-200"></div>{" "}
-        <div className="flex-grow border-t border-[1px] border-gray-200"></div>
-      </div>
-      <form>
-        <div className="flex flex-row gap-2 justify-center">
-          <button
-            type="button"
-            onClick={signInWithGoogle}
-            className="flex flex-row w-32 gap-2 bg-gray-600 p-2 rounded-md text-gray-200"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              className="lucide lucide-log-in"
-            >
-              <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" />
-              <polyline points="10 17 15 12 10 7" />
-              <line x1="15" x2="3" y1="12" y2="12" />
-            </svg>
-            <span className="font-medium mx-auto">Google</span>
-          </button>
-        </div>
-      </form>
-    </div>
+      </section>
+    </>
   );
 };
 
-export default Login;
+export default Landing;
