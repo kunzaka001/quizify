@@ -31,10 +31,7 @@ export default function CategorySelectCard() {
         <form>
           <div className="grid w-full items-center gap-4">
             <div className="flex flex-col space-y-1.5">
-              <Image 
-                src={quizifyLogo}
-                alt="Quizify Logo For Place Holder"
-              />
+              {/*Insert Something Here*/}
             </div>
           </div>
         </form>
