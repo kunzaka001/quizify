@@ -21,7 +21,7 @@ import {
   Layers,
   WandSparkles,
   ZoomIn,
-} from 'lucide-react';
+} from "lucide-react";
 
 const Landing = () => {
   const [user, setUser] = useState<User | null>(null);
@@ -90,39 +90,37 @@ const Landing = () => {
 
   const reasons = [
     {
-      title: 'Quality',
+      title: "Topic-Based Quizzes",
       description:
-        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Saepe est aliquid exercitationem, quos explicabo repellat?',
+        "Choose from a range of development topics like web development, data science, and cybersecurity, tailored for developers at all skill levels to sharpen their expertise.",
       icon: <ZoomIn className="size-6" />,
     },
     {
-      title: 'Experience',
+      title: "Global Leaderboards",
       description:
-        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Saepe est aliquid exercitationem, quos explicabo repellat?',
+        "Compete with developers worldwide and see where you stand. Track your progress, compare scores, and strive for the top in your favorite topics.",
       icon: <BarChartHorizontal className="size-6" />,
     },
     {
-      title: 'Support',
+      title: "Difficulty Adjustment",
       description:
-        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Saepe est aliquid exercitationem, quos explicabo repellat?',
+        "Increase or decrease in difficulty based on your knowledge, And improved more..",
       icon: <CircleHelp className="size-6" />,
     },
     {
-      title: 'Innovation',
+      title: "Timed Quiz",
       description:
-        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Saepe est aliquid exercitationem, quos explicabo repellat?',
+        "Challenge yourself with fast-paced, tech-focused questions that push your knowledge and speed. Perfect for testing your expertise in a high-stakes environment!?",
       icon: <WandSparkles className="size-6" />,
     },
     {
-      title: 'Results',
-      description:
-        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Saepe est aliquid exercitationem, quos explicabo repellat?',
+      title: "NULL",
+      description: "NULL",
       icon: <Layers className="size-6" />,
     },
     {
-      title: 'Efficiency',
-      description:
-        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Saepe est aliquid exercitationem, quos explicabo repellat?',
+      title: "NULL",
+      description: "NULL",
       icon: <BatteryCharging className="size-6" />,
     },
   ];
@@ -138,16 +136,25 @@ const Landing = () => {
                 <ArrowDownRight className="ml-2 size-4" />
               </Badge>
               <h1 className="my-6 text-pretty text-4xl font-bold lg:text-6xl">
-                Quizify: Your Ultimate Trivia Challenge
+                Quizify for Developers: Test and Elevate Your Tech Skills
               </h1>
               <p className="mb-8 max-w-xl text-muted-foreground lg:text-xl">
-                Test your knowledge with Quizify! Challenge yourself with fun
-                and engaging trivia questions, track your scores, and compete
-                for the highest score. Ready to play?
+                Boost your tech skills with Quizify for Devs—an interactive quiz
+                platform designed for developers. Tackle questions on coding,
+                tech trivia, and best practices to learn, practice, and stay
+                sharp.
               </p>
               <div className="flex w-full flex-col justify-center gap-2 sm:flex-row lg:justify-start">
-                <Button className="w-full jello-vertical sm:w-auto" onClick={signInWithGoogle}>Dive In!</Button>
-                <Button variant="outline" className="w-full jello-vertical sm:w-auto">
+                <Button
+                  className="w-full jello-vertical sm:w-auto"
+                  onClick={signInWithGoogle}
+                >
+                  Dive In!
+                </Button>
+                <Button
+                  variant="outline"
+                  className="w-full jello-vertical sm:w-auto"
+                >
                   Github
                   <ArrowDownRight className="ml-2 size-4" />
                 </Button>
@@ -165,25 +172,25 @@ const Landing = () => {
       </section>
 
       <section className="flex justify-center items-center py-32">
-      <div className="container">
-        <div className="mb-10 md:mb-20">
-          <h2 className="mb-2 text-center text-3xl font-semibold lg:text-5xl">
-            Why Work With Us?
-          </h2>
-        </div>
-        <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-3">
-          {reasons.map((reason, i) => (
-            <div key={i} className="flex flex-col">
-              <div className="mb-5 flex size-16 items-center justify-center rounded-full bg-accent">
-                {reason.icon}
+        <div className="container">
+          <div className="mb-10 md:mb-20">
+            <h2 className="mb-2 text-center text-3xl font-semibold lg:text-5xl">
+              Features
+            </h2>
+          </div>
+          <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-3">
+            {reasons.map((reason, i) => (
+              <div key={i} className="flex flex-col">
+                <div className="mb-5 flex size-16 items-center justify-center rounded-full bg-accent">
+                  {reason.icon}
+                </div>
+                <h3 className="mb-2 text-xl font-semibold">{reason.title}</h3>
+                <p className="text-muted-foreground">{reason.description}</p>
               </div>
-              <h3 className="mb-2 text-xl font-semibold">{reason.title}</h3>
-              <p className="text-muted-foreground">{reason.description}</p>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
     </>
   );
 };
