@@ -136,7 +136,8 @@ const Landing = () => {
                 <ArrowDownRight className="ml-2 size-4" />
               </Badge>
               <h1 className="my-6 text-pretty text-4xl font-bold lg:text-6xl">
-                Quizify for Developers: Test and Elevate Your Tech Skills
+                <span className="text-green-500">Quizify</span> for Developers:
+                Test and Elevate Your Tech Skills
               </h1>
               <p className="mb-8 max-w-xl text-muted-foreground lg:text-xl">
                 Boost your tech skills with Quizify for Devs—an interactive quiz
