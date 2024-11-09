@@ -10,7 +10,9 @@ import {
 import { getDatabase, ref, onValue } from "firebase/database";
 import app from "../../config.js";
 
-import CategorySelectCard from "../components/categoryCard"
+import CategorySelectCard from "../components/categoryCard";
+import { fetchQuestions } from "../lib/fetchQuestions.ts";
+import { Button } from "@/components/ui/button.tsx";
 
 const Home = () => {
   const router = useRouter();
@@ -20,7 +22,7 @@ const Home = () => {
   const [difficulty, setDifficulty] = useState<string | undefined>(undefined);
   const [user, setUser] = useState<{
     username: string;
-    photoURL?: string;
+    //photoURL?: string;
   } | null>(null);
 
   useEffect(() => {
@@ -35,7 +37,7 @@ const Home = () => {
               if (data) {
                 setUser({
                   username: data.username,
-                  photoURL: data.profile_picture,
+                  //photoURL: data.profile_picture,
                 });
               }
             });
@@ -59,11 +61,20 @@ const Home = () => {
     }
   };
 
-  const navToQuiz = (selectedDifficulty: string) => {
+  const navToQuiz = () => {
     try {
-      router.push(`/quiz?difficulty=${selectedDifficulty}`);
+      router.push(`/quiz`);
     } catch (error: any) {
       console.error("Error navigating:", error.message);
+    }
+  };
+
+  const test = async () => {
+    try {
+      const quizes = await fetchQuestions();
+      console.log(quizes);
+    } catch (error: any) {
+      console.error(error.message);
     }
   };
 
@@ -76,7 +87,7 @@ const Home = () => {
             onClick={navUserInfo}
           >
             <img
-              src={user.photoURL || "default-profile.png"}
+              //src={user.photoURL || "default-profile.png"}
               alt="User"
               className="w-12 h-12 rounded-full border-2 border-blue-500"
               onError={(e) => {
@@ -106,6 +117,7 @@ const Home = () => {
       <div className="flex justify-center items-center flex-grow">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           <CategorySelectCard />
+          <Button onClick={navToQuiz} />
         </div>
       </div>
     </div>
