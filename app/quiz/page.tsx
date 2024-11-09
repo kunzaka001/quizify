@@ -2,71 +2,41 @@
 
 import { useState, useEffect } from "react";
 import { fetchQuestions } from "../lib/fetchQuestions";
-import { getDatabase, ref, set, get } from "firebase/database";
-import { getAuth, User } from "firebase/auth";
 import { useRouter } from "next/navigation";
-import { decode } from "html-entities";
+
+// Define the type for a single question
+interface Question {
+  question: string;
+  correct_answer: string;
+  answers: Record<string, string>; // This defines answers as an object with string keys and string values
+}
 
 const Quiz = () => {
   const router = useRouter();
-  const [questions, setQuestions] = useState<any[]>([]);
+  const [questions, setQuestions] = useState<Question[]>([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [userAnswer, setUserAnswer] = useState<string | null>(null);
   const [score, setScore] = useState(0);
   const [timer, setTimer] = useState(5);
   const [isAnswerVisible, setIsAnswerVisible] = useState(false);
-  const [difficulty, setDifficulty] = useState<string | null>(null);
-  const [countdown, setCountdown] = useState(5);
   const [showPage, setShowPage] = useState(false);
+  const [countdown, setCountdown] = useState(5);
 
-  const shuffleArray = (array: any[]) => {
-    for (let i = array.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [array[i], array[j]] = [array[j], array[i]];
-    }
-    return array;
-  };
-
-  const decodeText = (text: string | null) => {
-    return text ? decode(text) : "";
-  };
-
-  useEffect(() => {
-    const query = new URLSearchParams(window.location.search);
-    const difficultyParam = query.get("difficulty");
-    setDifficulty(difficultyParam);
-  }, []);
-
+  // Load questions when the component mounts
   useEffect(() => {
     const loadQuestions = async () => {
       try {
-        const difficultyValue = difficulty || "easy";
-        console.log(difficultyValue);
-        const questionsData = await fetchQuestions(10, difficultyValue);
-
-        const shuffledQuestions = questionsData.map((question: any) => {
-          const allAnswers = [
-            ...question.incorrect_answers,
-            question.correct_answer,
-          ];
-          return {
-            ...question,
-            question: decodeText(question.question),
-            answers: shuffleArray(allAnswers.map(decodeText)),
-          };
-        });
-
-        setQuestions(shuffledQuestions);
+        const questionsData = await fetchQuestions();
+        // Ensure answers are shuffled here (done in fetchQuestions)
+        setQuestions(questionsData); // Set fetched questions directly
       } catch (error) {
         console.error("Error loading questions:", error);
       }
     };
+    loadQuestions();
+  }, []);
 
-    if (difficulty !== null) {
-      loadQuestions();
-    }
-  }, [difficulty]);
-
+  // Handle the countdown timer before showing the first question
   useEffect(() => {
     const countdownTimer = async () => {
       while (countdown > 0) {
@@ -79,37 +49,39 @@ const Quiz = () => {
           }, 1000);
         });
       }
-      setShowPage(true);
-      setTimer(5);
+      setShowPage(true); // Show the quiz page after countdown
+      setTimer(5); // Reset the timer for the first question
     };
 
-    if (difficulty !== null) {
-      countdownTimer();
-    }
-  }, [countdown, difficulty]);
+    countdownTimer();
+  }, [countdown]);
 
+  // Handle the timer countdown for each question
   useEffect(() => {
     if (showPage && timer > 0 && !isAnswerVisible) {
       const timerId = setTimeout(() => setTimer(timer - 1), 1000);
       return () => clearTimeout(timerId);
     } else if (timer === 0) {
-      setIsAnswerVisible(true);
+      setIsAnswerVisible(true); // Show correct answer when timer ends
     }
   }, [timer, showPage, isAnswerVisible]);
 
+  // Handle user's answer selection
   const handleAnswer = (answer: string) => {
     if (isAnswerVisible) return;
 
     const currentQuestion = questions[currentQuestionIndex];
     const correctAnswer = currentQuestion.correct_answer;
+
     if (answer === correctAnswer) {
-      setScore(score + 1);
+      setScore(score + 1); // Increase score if correct
     }
 
-    setUserAnswer(answer);
-    setIsAnswerVisible(true);
+    setUserAnswer(answer); // Store selected answer
+    setIsAnswerVisible(true); // Show feedback
   };
 
+  // Proceed to the next question
   const handleNextQuestion = () => {
     setIsAnswerVisible(false);
     setUserAnswer(null);
@@ -117,12 +89,9 @@ const Quiz = () => {
     setCurrentQuestionIndex(currentQuestionIndex + 1);
   };
 
+  // Navigate to the home page when quiz is finished
   const navHome = () => {
-    try {
-      router.push("/home");
-    } catch (error: any) {
-      console.error("Error navigating:", error.message);
-    }
+    router.push("/home");
   };
 
   return (
@@ -140,10 +109,10 @@ const Quiz = () => {
                   {questions[currentQuestionIndex].question}
                 </h2>
                 <div className="space-y-2 mt-4">
-                  {questions[currentQuestionIndex].answers.map(
-                    (answer: string) => (
+                  {Object.entries(questions[currentQuestionIndex].answers).map(
+                    ([key, answer]) => (
                       <button
-                        key={answer}
+                        key={key}
                         onClick={() => handleAnswer(answer)}
                         className={`w-full p-3 rounded-lg transition-colors duration-300 ${
                           userAnswer === answer
@@ -184,7 +153,9 @@ const Quiz = () => {
                   </button>
                 </div>
               )}
-              <p className="text-lg font-medium mt-4">Time Left: {timer}</p>
+              <p className="text-lg font-medium text-stone-950 mt-4">
+                Time Left: {timer}
+              </p>
             </div>
           ) : (
             <div className="text-center">
