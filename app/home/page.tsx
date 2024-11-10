@@ -10,7 +10,10 @@ import {
 import { getDatabase, ref, onValue } from "firebase/database";
 import app from "../../config.js";
 
-import CategorySelectCard from "../components/categoryCard";
+import Image from "next/image";
+import quizify_logo from "../assets/q.png";
+
+import HomeCard from "../components/homeCard.tsx";
 import { fetchQuestions } from "../lib/fetchQuestions.ts";
 import { Button } from "@/components/ui/button.tsx";
 
@@ -63,7 +66,7 @@ const Home = () => {
 
   const navToQuiz = () => {
     try {
-      router.push(`/quiz`);
+      router.push(`/quizselect`);
     } catch (error: any) {
       console.error("Error navigating:", error.message);
     }
@@ -114,10 +117,25 @@ const Home = () => {
           </div>
         )}
       </div>
-      <div className="flex justify-center items-center flex-grow">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          <CategorySelectCard />
-          <Button onClick={navToQuiz} />
+      <div className="container mx-auto flex px-5 py-10 items-center justify-center flex-col">
+        <Image
+          className="w-4/6 md:w-3/6 lg:w-2/6 mb-4 object-cover object-center rounded"
+          alt="hero"
+          src={quizify_logo}
+        />
+        <div className="text-center lg:w-2/3 w-full">
+          <p className="mb-8 leading-relaxed">
+            Meggings kinfolk echo park stumptown DIY, kale chips beard jianbing
+            tousled. Chambray dreamcatcher trust fund, kitsch vice godard
+            disrupt ramps hexagon mustache umami snackwave tilde chillwave ugh.
+            Pour-over meditation PBR&amp;B pickled ennui celiac mlkshk freegan
+            photo booth af fingerstache pitchfork.
+          </p>
+          <div className="flex justify-center">
+            <Button className="text-lg" onClick={navToQuiz}>
+              Play
+            </Button>
+          </div>
         </div>
       </div>
     </div>
