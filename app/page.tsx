@@ -12,7 +12,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
 import Image from "next/image";
-import quizifyLogo from "./assets/q.png";
+import quizifyLogo from "./assets/quizify_logo.png";
 
 import {
   BarChartHorizontal,
