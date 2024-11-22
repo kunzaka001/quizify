@@ -4,6 +4,8 @@ import { getAuth, signOut, onAuthStateChanged, User } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import app from "../../config.js";
 
+import ProfilePlacehold from "../assets/profile_placeholder.png";
+
 function UserInfo() {
   const auth = getAuth(app);
   const router = useRouter();
@@ -43,11 +45,11 @@ function UserInfo() {
       <div className="text-center">
         <div className="mb-4">
           <img
-            src={user?.photoURL || "default-profile.png"}
+            src={user?.photoURL || "profile_placeholder.png"}
             alt="User"
             className="w-24 h-24 rounded-full border-4 border-blue-500 mx-auto"
             onError={(e) => {
-              e.currentTarget.src = "default-profile.png"; // Replace with a default image path
+              e.currentTarget.src = "../assets/profile_placeholder.png"; // Replace with a default image path
             }}
           />
         </div>
