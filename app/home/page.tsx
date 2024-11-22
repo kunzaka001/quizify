@@ -11,11 +11,13 @@ import { getDatabase, ref, onValue } from "firebase/database";
 import app from "../../config.js";
 
 import Image from "next/image";
-import quizify_logo from "../assets/q.png";
+import quizify_logo from "../assets/quizify_logo.png";
 
 import HomeCard from "../components/homeCard.tsx";
 import { fetchQuestions } from "../lib/fetchQuestions.ts";
 import { Button } from "@/components/ui/button.tsx";
+
+import { CodeXml } from "lucide-react";
 
 const Home = () => {
   const router = useRouter();
@@ -25,7 +27,7 @@ const Home = () => {
   const [difficulty, setDifficulty] = useState<string | undefined>(undefined);
   const [user, setUser] = useState<{
     username: string;
-    //photoURL?: string;
+    photoURL?: string;
   } | null>(null);
 
   useEffect(() => {
@@ -40,7 +42,7 @@ const Home = () => {
               if (data) {
                 setUser({
                   username: data.username,
-                  //photoURL: data.profile_picture,
+                  photoURL: data.profile_picture,
                 });
               }
             });
@@ -83,39 +85,45 @@ const Home = () => {
 
   return (
     <div className="flex flex-col h-screen">
-      <div className="flex items-center justify-end p-4 space-x-3">
-        {user ? (
-          <div
-            className="flex items-center space-x-3 cursor-pointer"
-            onClick={navUserInfo}
-          >
-            <img
-              //src={user.photoURL || "default-profile.png"}
-              alt="User"
-              className="w-12 h-12 rounded-full border-2 border-blue-500"
-              onError={(e) => {
-                e.currentTarget.src = "default-profile.png";
-              }}
-            />
-            <span className="text-lg font-semibold text-white">
-              {user.username}
-            </span>
-          </div>
-        ) : (
-          <div
-            className="flex items-center space-x-3 cursor-pointer"
-            onClick={navUserInfo}
-          >
-            <img
-              src="default-profile.png"
-              alt="User"
-              className="w-12 h-12 rounded-full border-2 border-blue-500"
-            />
-            <span className="text-lg font-semibold text-gray-800">
-              Username
-            </span>
-          </div>
-        )}
+      <div className="flex w-full border-b-2 border-neutral-500">
+        <div className="flex flex-1 items-center p-4 space-x-3">
+          <CodeXml color="#0ed100" />
+          <p className="text-[#0ed100]">Quizify</p>
+        </div>
+        <div className="flex flex-1 items-center justify-end p-4 space-x-3">
+          {user ? (
+            <div
+              className="flex items-center space-x-3 cursor-pointer"
+              onClick={navUserInfo}
+            >
+              <span className="text-lg font-semibold text-white">
+                {user.username}
+              </span>
+              <img
+                src={user.photoURL || "default-profile.png"}
+                alt="User"
+                className="w-12 h-12 rounded-full border-2 border-blue-500"
+                onError={(e) => {
+                  e.currentTarget.src = "default-profile.png";
+                }}
+              />
+            </div>
+          ) : (
+            <div
+              className="flex items-center space-x-3 cursor-pointer"
+              onClick={navUserInfo}
+            >
+              <span className="text-lg font-semibold text-gray-800">
+                Username
+              </span>
+              <img
+                src="default-profile.png"
+                alt="User"
+                className="w-12 h-12 rounded-full border-2 border-blue-500"
+              />
+            </div>
+          )}
+        </div>
       </div>
       <div className="container mx-auto flex px-5 py-10 items-center justify-center flex-col">
         <Image
